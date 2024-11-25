@@ -1,11 +1,11 @@
 import z from "zod";
 
 const pattern = z.object({
-    name: z.literal("João")
+    name: z.string()
 });
 
 const result = pattern.parse({
-    name: "João"
+    name: "João",
 })
 console.log(result);
 
