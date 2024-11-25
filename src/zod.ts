@@ -10,5 +10,14 @@ const schema = z.object({
 let data = {
     name: "João",
     email: "joao@gmail.com",
-    age: 19
+    age: 18
 };
+
+const result = schema.safeParse(data);
+
+if(result.success) {
+    console.log("Deu Certo");
+    console.log(result.data);
+} else {
+    console.log("Deu erro, verificar os dados!");
+}
