@@ -4,20 +4,28 @@ import z from "zod";
 const schema = z.object({
     name: z.string().min(2),
     email: z.string().email(),
-    age: z.number().min(18).max(120)
-})
+    age: z.number().min(18).max(120),
+    status: z.boolean(),
+    characteristics: z.array(
+        z.object({
+        name: z.string(),
+        value: z.number(),
+    }))
+});
 
-let data = {
+type User = z.infer<typeof schema>;
+
+let data: User = {
     name: "João",
     email: "joao@gmail.com",
-    age: 18
+    age: 18,
+    status: true,
+    characteristics: [
+        {name: "Mana", value: 10},
+        {name: "Escudo", value: 50}
+    ]
 };
 
-const result = schema.safeParse(data);
+const result = schema.parse(data);
+console.log(result);
 
-if(result.success) {
-    console.log("Deu Certo");
-    console.log(result.data);
-} else {
-    console.log("Deu erro, verificar os dados!");
-}
