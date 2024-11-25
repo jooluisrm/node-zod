@@ -1,12 +1,7 @@
 import z from "zod";
 
 const pattern = z.object({
-    name: z.string(),
-    age: z.number(),
-    active: z.boolean(),
-    birthDate: z.date(),
-    algo: z.null(),
-    nunca: z.never()
+    name: z.literal("João")
 });
 
 const result = pattern.parse({
