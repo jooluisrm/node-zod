@@ -1,5 +1,6 @@
 import express from "express";
 import z from "zod";
+import { jsonPlaceholderResponse } from "./schemas/jsonPlaceholderResponse";
 
 const server = express();
 
@@ -10,6 +11,28 @@ server.get("/ping", (req, res) => {
     res.json({ pong: true });
 });
 
+server.get("/posts", async (req, res) => {
+
+    const request = await fetch("https://jsonplaceholder.typicode.com/posts");
+    const data = await request.json();
+
+    const result = jsonPlaceholderResponse.safeParse(data);
+    if (!result.success) {
+        res.status(500).json({ error: "Ocorreu um erro interno." });
+        return;
+    }
+
+    // processar
+
+    let totalPosts = result.data.length;
+
+    res.json({ total: totalPosts });
+});
+
+
+
+
+/*
 server.post("/user", (req, res) => {
     const userSchema = z.object({
         name: z.string().min(2),
@@ -32,6 +55,7 @@ server.post("/user", (req, res) => {
 
     res.status(201).json({ result: 'tudo ok' });
 });
+*/
 
 server.listen(3000, () => {
     console.log("Rodando: http://localhost:3000/");
